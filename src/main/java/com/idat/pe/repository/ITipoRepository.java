@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.idat.pe.model.Tipo;
 
-public interface TipoRepository extends CrudRepository<Tipo, Integer> {
+public interface ITipoRepository extends CrudRepository<Tipo, Integer> {
 
 }

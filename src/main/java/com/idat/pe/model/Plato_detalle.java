@@ -7,12 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//No implementar
 //@Entity
 public class Plato_detalle implements Serializable {
 
-	/**
-	 * 
-	 */
+			//No implementar
+	/*
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -54,6 +54,6 @@ public class Plato_detalle implements Serializable {
 		this.pedido = pedido;
 	}
 	
-	
+	*/
 
 }
