@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,8 +45,8 @@ public class CuentaUsuarioController {
 
 		return new ResponseEntity<CuentaUsuario>(dao.findById(id), HttpStatus.OK);
 	}
-
-	public ResponseEntity<CuentaUsuario> save(CuentaUsuario cuentaUsuario) {
+	@PostMapping
+	public ResponseEntity<CuentaUsuario> save(@RequestBody CuentaUsuario cuentaUsuario) {
 
 		boolean existeCuenta = dao.exists(	cuentaUsuario.getId_usuario());
 
@@ -62,7 +66,8 @@ public class CuentaUsuarioController {
 
 	}
 	
-	public ResponseEntity<CuentaUsuario> update(CuentaUsuario cuentaUsuario) {
+	@PutMapping
+	public ResponseEntity<CuentaUsuario> update(@RequestBody CuentaUsuario cuentaUsuario) {
 
 		boolean existeCuenta = dao.exists(	cuentaUsuario.getId_usuario());
 
@@ -81,8 +86,8 @@ public class CuentaUsuarioController {
 
 	}
 	
-	
-	public ResponseEntity<Object> delete(Integer id){
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> delete(@PathVariable("id") Integer id){
 		
 		try {
 			dao.delete(id);
@@ -90,13 +95,7 @@ public class CuentaUsuarioController {
 			return new ResponseEntity<Object>(mensaje , HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(plantilla.getErrorDelete(), HttpStatus.CONFLICT);
-			
 		}
-		
-		
-		
-		
 	}
 	
-
 }
