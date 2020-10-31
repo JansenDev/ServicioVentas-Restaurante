@@ -36,25 +36,31 @@ public class ClienteController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> findById(@PathVariable("id") Integer id) {
 
+		if(!dao.exists(id)) {
+			mensaje = plantilla.getNotExists();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, mensaje);
+		}
+		
 		Cliente clienteEncontrado = dao.findById(id);
 		mensaje = plantilla.getNotFound();
 
 		if (clienteEncontrado.getId_cliente() == null && clienteEncontrado.getId_cliente() != 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, mensaje);
 		}
+		
 		return new ResponseEntity<Cliente>(clienteEncontrado, HttpStatus.OK);
 	}
 
 	@PostMapping
 	public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
 
-		String mensaje = plantilla.getParamInvalid();
 
 		if (cliente.getNombre() == null || cliente.getDni() == null || cliente.getApellido() == null) {
+			mensaje = plantilla.getParamInvalid();
 			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
 		}
-
-		return new ResponseEntity<Cliente>(dao.save(cliente), HttpStatus.CREATED);
+		Cliente clienteCreado = dao.save(cliente);
+		return new ResponseEntity<Cliente>(clienteCreado, HttpStatus.CREATED);
 	}
 
 	@PutMapping
@@ -63,24 +69,27 @@ public class ClienteController {
 		int id = cliente.getId_cliente();
 
 		if (cliente.getId_cliente() == null || id < 0) {
+			
 			mensaje = plantilla.getParamInvalid(); 
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, mensaje);
 		}
 
 		if (!dao.exists(id)) {
+			
 			mensaje = plantilla.getNotExists(id); 
 			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
 		}
 
-		return new ResponseEntity<Cliente>( dao.save(cliente), HttpStatus.OK );
+		
+		Cliente clienteActualizado = dao.save(cliente);
+		return new ResponseEntity<Cliente>( clienteActualizado, HttpStatus.OK );
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> delete(@PathVariable("id") Integer id) {
 
-		String mensaje = plantilla.getSuccessDelete(id);
-
 		try {
+			
 			mensaje = plantilla.getSuccessDelete();
 			dao.delete(id);
 			return new ResponseEntity<Object>(mensaje, HttpStatus.OK);

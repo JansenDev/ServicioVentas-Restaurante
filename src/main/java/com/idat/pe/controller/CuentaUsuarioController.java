@@ -36,10 +36,15 @@ public class CuentaUsuarioController {
 	@GetMapping("/{id}")
 	public ResponseEntity<CuentaUsuario> findById(@PathVariable("id") Integer id) {
 
+		if(!dao.exists(id)) {
+			mensaje = plantilla.getNotExists();
+			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
+		}
+		
 		CuentaUsuario CuentaEncontrada = dao.findById(id);
-		mensaje = plantilla.getNotFound();
 
 		if (CuentaEncontrada.getId_usuario() == null || CuentaEncontrada.getId_usuario() < 0) {
+			mensaje = plantilla.getNotFound();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, mensaje);
 		}
 
@@ -48,15 +53,8 @@ public class CuentaUsuarioController {
 	@PostMapping
 	public ResponseEntity<CuentaUsuario> save(@RequestBody CuentaUsuario cuentaUsuario) {
 
-		boolean existeCuenta = dao.exists(	cuentaUsuario.getId_usuario());
-
 		if (cuentaUsuario.getNombre() == null || cuentaUsuario.getContrasena() == null
 				|| cuentaUsuario.getCod_empleado() == null) {
-			mensaje = plantilla.getParamInvalid();
-			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
-		}
-		
-		if( existeCuenta	) {
 			mensaje = plantilla.getParamInvalid();
 			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
 		}
