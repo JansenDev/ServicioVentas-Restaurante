@@ -1,3 +1,1 @@
-# Servicio de Ventas - restaurante | Spring boot + Angular 2 Implementandose...
-
-![image](https://user-images.githubusercontent.com/71657821/97511233-96a0cd00-1954-11eb-8b9b-263c59f31a4f.png)
+# Servicio de Ventas - restaurante g)
