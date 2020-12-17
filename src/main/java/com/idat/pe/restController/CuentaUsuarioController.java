@@ -1,4 +1,4 @@
-package com.idat.pe.controller;
+package com.idat.pe.restController;
 
 import java.util.List;
 

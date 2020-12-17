@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Menu | Empleado</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+	<section class="app">
+		<!-- Start side-menu -->
+		<aside class="sidebar">
+			<header>
+				<b>TABLERO DE CONTROL</b>
+			</header>
+			<nav class="sidebar-nav">
+				<ul>
+					<li><a href="#"><i class="ion-ios-people"></i> <span>Empleados</span></a>
+						<ul class="nav-flyout">
+							<li><a href="#"><i class="ion-ios-list-outline"></i>Listar
+									Empleados</a></li>
+							<li><a th:href="@{/new}"><i class="ion-person-add"></i>Nuevo
+									Empleado</a></li>
+						</ul></li>
+					<li><a href="#"><i class="ion-record"></i> <span class="">Platos</span></a>
+						<ul class="nav-flyout">
+							<li><a href="#"><i class="ion-ios-list-outline"></i>Listar
+									Platillos</a></li>
+							<li><a href="#"><i class="ion-ios-plus-outline"></i>Nuevo
+									Platillo</a></li>
+						</ul></li>
+					<li><a href="#"><i class="ion-ios-grid-view-outline"></i>
+							<span class="">Mesas</span></a>
+						<ul class="nav-flyout">
+							<li><a href="#"><i class="ion-ios-list-outline"></i>Listar
+									Mesas</a></li>
+							<li><a href="#"><i class="ion-ios-plus-outline"></i>Nueva
+									Mesa</a></li>
+						</ul></li>
+					<li><a href="#"><i
+							class="ion-android-checkbox-outline-blank"></i> <span class="">Reserva</span></a>
+						<ul class="nav-flyout">
+							<li><a href="#"><i class="ion-ios-list-outline"></i>Listar
+									Reserva</a></li>
+							<li><a href="#"><i class="ion-ios-plus-outline"></i>Nueva
+									Reserva</a></li>
+						</ul></li>
+					<li><a href="#"><i class="ion-social-usd"></i> <span
+							class="">Pedidos</span></a>
+						<ul class="nav-flyout">
+							<li><a href="#"><i class="ion-ios-list-outline"></i>Listar
+									Reserva</a></li>
+							<li><a href="#"><i class="ion-ios-plus-outline"></i>Nuevo
+									Pedido</a>
+						</ul></li>
+					<li><a href="#"><i class="ion-log-out"></i> <span class="">Cerrar
+								Sesión</span></a></li>
+				</ul>
+			</nav>
+		</aside>
+		<!-- End side-menu -->
+		<!-- Start body-main -->
+		<section class="body-main">
+			<main class="container-fluid">
+				<section class="row">
+					<div class="col-lg">
+						<a th:href="@{/new}" class="btn btn-success float-right my-2"><i
+							class="ion-plus-round"></i> Nuevo</a>
+						<table
+							class="table table-hover table-dark text-light table-responsive-lg table-bordered">
+							<thead class="text-center">
+								<tr>
+									<th colspan="4">LISTA DE EMPLEADOS</th>
+								</tr>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellido</th>
+									<th>Teléfono</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="empl:${empleados}">
+									<td th:text="${empl.nombre}"></td>
+									<td th:text="${empl.apellido}"></td>
+									<td th:text="${empl.telefono}"></td>
+									<td class="acciones">
+									<a th:href="@{/editar/}+${empl.id_empleado}" class="btn btn-warning"><i class="ion-edit"></i> Editar</a>
+									<a th:onclick="eliminarEmpleado([[${empl.id_empleado}]])" class="btn btn-danger"><i class="ion-close-round"></i> Eliminar</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+			</main>
+
+		</section>
+		<!-- End body-main -->
+	</section>
+
+	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="js/EmpleadoAcciones.js"></script>
+</body>
+
+</html>

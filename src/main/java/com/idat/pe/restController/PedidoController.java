@@ -1,4 +1,4 @@
-package com.idat.pe.controller;
+package com.idat.pe.restController;
 
 import java.util.List;
 
@@ -15,65 +15,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.idat.pe.model.Plato;
-import com.idat.pe.service.IPlatoService;
+import com.idat.pe.model.Pedido;
+import com.idat.pe.service.IPedidoService;
 import com.idat.pe.utils.Messages_Utils;
 
 @RestController
-@RequestMapping("/plato")
-public class PlatoController {
+@RequestMapping("/pedido")
+public class PedidoController {
 
 	@Autowired
-	IPlatoService dao;
+	IPedidoService dao;
 	Messages_Utils plantilla;
 	String mensaje = "";
 	
 	@GetMapping
-	public ResponseEntity<List<Plato>> findAll(){
-		return new ResponseEntity<List<Plato>>(	dao.findAll(),HttpStatus.OK	);
+	public ResponseEntity<List<Pedido>> findAll(){
+		return new ResponseEntity<List<Pedido>>( dao.findAll(), HttpStatus.OK );
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Plato> findById(@PathVariable("id")Integer id){
+	public ResponseEntity<Pedido> findById(Integer id){
 		
 		if(!dao.exists(id)) {
 			mensaje = plantilla.getNotExists();
 			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
 		}
 		
-		Plato platoEncontrado = dao.findById(id);
-		return new ResponseEntity<Plato>(platoEncontrado, HttpStatus.OK);
+		Pedido pedidoEncontrado = dao.findById(id);
 		
+		return new ResponseEntity<Pedido>(pedidoEncontrado,HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Plato> save(@RequestBody Plato plato){
+	public ResponseEntity<Pedido> save(@RequestBody Pedido pedido){
 		
-		if(plato.getNombre() == null || plato.getPrecio() == null || plato.getTipo() == null) {
+		if(pedido.getCod_pedido() == null || pedido.getEmpleado() == null ||
+				pedido.getMonto_total() == null) {
+			
 			mensaje = plantilla.getParamInvalid();
 			throw new ResponseStatusException(HttpStatus.CONFLICT, mensaje);
 		}
 		
-		Plato platoCreado = dao.save(plato);
-		return new ResponseEntity<Plato>(platoCreado , HttpStatus.OK);
+		Pedido pedidoCreado = dao.save(pedido);
+		return new ResponseEntity<Pedido>(pedidoCreado , HttpStatus.OK);
 		
 	}
 	
 	@PutMapping
-	public ResponseEntity<Plato> update(@RequestBody Plato plato){
+	public ResponseEntity<Pedido> update (@RequestBody Pedido pedido){
 		
-		if(!dao.exists(plato.getId_plato())) {
+		if(!dao.exists(pedido.getId_pedido())) {
 			mensaje = plantilla.getNotExists();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, mensaje);
 		}
-
-		Plato platoActualizado = dao.update(plato);
-		return new ResponseEntity<Plato>(platoActualizado , HttpStatus.OK);
 		
+		Pedido pedidoActualizado = dao.update(pedido);
+		return new ResponseEntity<Pedido>(pedidoActualizado , HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete(Integer id){
+	public ResponseEntity<Object> delete(@PathVariable("id") Integer id){
 		
 		try {
 			dao.delete(id);
@@ -81,8 +82,9 @@ public class PlatoController {
 			return new ResponseEntity<Object>(mensaje, HttpStatus.OK);
 		} catch (Exception e) {
 			mensaje = plantilla.getErrorDelete();
-			return new ResponseEntity<Object>(mensaje, HttpStatus.CONFLICT);
+			return new ResponseEntity<Object>(mensaje,HttpStatus.CONFLICT);
 		}
+		
 	}
 	
 	
